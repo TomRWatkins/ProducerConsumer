@@ -1,41 +1,35 @@
-public class semaphore{
-    
+import java.util.*;
+/**
+ * Semaphore class enables concurrency mechanisms to be used.
+ * @author Thomas Watkins
+ *
+ */
+public class semaphore{    
     private int permits;
     
-    /** permits is the initial number of permits available.           
-    */
+    /**
+     * Constructor. Creates a new instance of semaphore.
+     * @param permits the initial number of permits available.
+     */
     public semaphore(int permits) {
            this.permits = permits;
     }
- 
-    /**Acquires a permit if one is available and decrements the
-       number of available permits by 1.           
-    */
-    public synchronized void down() throws InterruptedException {
-    	//Acquires a permit, if permits is greater than 0 decrements
-        //the number of available permits by 1.
+    /**
+     * Aquires a permit if one is available and decrements the number
+     * of available permits by 1.
+     * @throws InterruptedException try/catch
+     */
+    public synchronized void down() throws InterruptedException {    
     	permits--;
-    	if(permits < 0)
-    	{    		
-            this.wait();
-    	}
+    	if(permits < 0)    		
+            this.wait();    	
     }
- 
-    /** Releases a permit and increases the number of available permits by 1.          
-    */
+    /**
+     * increases the number of available permits by 1 and releases a permit.
+     */
     public synchronized void up() {
-           //increases the number of available permits by 1.
            permits++;
-           
-           //If permits are greater than 0, notify waiting threads.
            if(permits <= 0)
                   this.notify();
-    }
-    
-    public synchronized int getPermits() throws InterruptedException {
-    	//Acquires a permit, if permits is greater than 0 decrements
-        //the number of available permits by 1.
-    	return this.permits; 	
-    }
- 
+    } 
 }

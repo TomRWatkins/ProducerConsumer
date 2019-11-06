@@ -1,30 +1,42 @@
 import java.util.*;
 /**
- * user class symbolises a user to add an amount of elements
- * to the buffer.
+ * User class creates a user to add an amount of elements to a buffer.
  * @author Thomas Watkins
- *
  */
 public class user implements Runnable{
+	//Creation of instance variables
 	private int elemsAdded = 0;
     private int id;
-    int num_elements;
+    private int num_elements;
     public static Buffer buf;
-    semaphore s;
-    semaphore n;
-    semaphore e;
-    //User arguments: User ID, number of elements to add, and buffer
-    public user(int i, int el, Buffer b, semaphore s, semaphore n, semaphore e) {
-        this.id = i;
-        this.num_elements = el;
+    private semaphore s;
+    private semaphore n;
+    private semaphore e;
+    
+  /**
+   * Constructor. Creates an instance of user that will add a number
+   * of elements to a given buffer.
+   * @param id the ID of this user.
+   * @param num_elements the number of elements this user will add to the buffer.
+   * @param b the buffer the user will add elements to.
+   * @param s the semaphore for mutual exclusion.
+   * @param n the semaphore for lower bound protection.
+   * @param e the semaphore for upper bound protection.
+   */
+    public user(int id, int num_elements, Buffer b, semaphore s, semaphore n, semaphore e) {
+        this.id = id;
+        this.num_elements = num_elements;
         buf = b;
         this.s = s;
         this.n = n;
         this.e = e;        
     }
-
-    public void add_elements() {
-        //Add element to buffer, element value iterates from 0, 1, 2 .... num_elements
+    
+    /**
+     * This method adds a number of elements to a given buffer. Elements
+     * iterate from o -> num_elements.
+     */
+    public void add_elements() {       
         int num = 0;        
         while (num_elements > 0) {        	
         	try {       		
@@ -45,12 +57,24 @@ public class user implements Runnable{
         }
     }
     
+    /**
+     * The run method is called when the Thread associated
+     * with this object is started. Simply calls this users
+     * add_elements method.
+     */
 	public void run() {		
 		add_elements();				
 	}
+	/**
+	 * Returns the ID for this user.
+	 * @return id
+	 */
 	public int getId() {
 		return this.id;
 	}
+	/**
+	 * This method is called once the user has finished adding all of its elements.
+	 */
 	public void finished() {
 		System.out.println("User " + id + " created a total of " + elemsAdded + " elements");
 	}

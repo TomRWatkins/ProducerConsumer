@@ -1,7 +1,13 @@
 import java.util.Scanner;
+/**
+ * startServer acts as a driver class creating an execution scenaio
+ * between user and webservers on Buffer. * 
+ * @author Thomas Watkins
+ *
+ */
 public class startServer {
-	//Creation of buffer object
-	Buffer b;   
+	//Creation of instance variables
+	private Buffer b;   
 	private int bufCapacity;
 	private int numUsers;
 	private int numServers;
@@ -9,13 +15,20 @@ public class startServer {
 	private semaphore s = new semaphore(1);
 	private semaphore n = new semaphore(0);
 	private semaphore e;
-    //Creates execution scenario between user and webservers on buffer
+    
+	/**
+	 * Constructor. creates an instance of startServer to drive the program.
+	 * @param bufCapacity is the buffers quantity limit.
+	 * @param numUsers is the number of users that will be instantiated.
+	 * @param numServers is the number of servers that will be instantiated.
+	 * @param totalElems is the total elements to be distributed throughout users/server.
+	 */
     public startServer(int bufCapacity,	int numUsers, int numServers, int totalElems) { 
     	this.bufCapacity = bufCapacity;
     	this.numUsers = numUsers;
     	this.numServers = numServers;
     	this.totalElems = totalElems;
-    	e = new semaphore(bufCapacity);
+    	this.e = new semaphore(bufCapacity);
     	
     	long startTime = System.currentTimeMillis();
 
@@ -77,6 +90,7 @@ public class startServer {
 			webServersThread[i] = new Thread(x);
 		}
     	
+    	//Start all Threads
     	for(Thread t: userThread) {			
 			t.start();			
 		}
@@ -85,6 +99,7 @@ public class startServer {
 			t.start();		
 		}	
     	
+		//Join all Threads
 		for(Thread t: userThread) {
 			try {
 				t.join();
@@ -108,11 +123,13 @@ public class startServer {
         }
         for(webserver ws: webServers) {
         	ws.finished();
-        }
+        }       
         System.out.println("-----------------------");
+        
         //Check to see buffer if all elements produced from users have been successfully removed by webservers
         System.out.println("Buffer has " + b.getElements() + " elements remaining");			
         System.out.println("-----------------------");
+        
         //Checks if all users and web servers successfully finished
         for(int i = 0; i < numServers; i++) {
         	System.out.println("Server thread " + webServers[i].getId() + " is alive: "+ webServersThread[i].isAlive());
@@ -120,12 +137,16 @@ public class startServer {
         for(int i = 0; i < numUsers; i++) {
         	System.out.println("User thread " + users[i].getId() + " is alive: "+ userThread[i].isAlive());
         }
+        
         long endTime = System.currentTimeMillis();
         System.out.println("-----------------------");
         System.out.println("Program took " + (endTime - startTime) + " milliseconds to complete");
 
     }
-
+    /**
+     * Main method.
+     * @param args N/A
+     */
 	public static void main(String[] args) {
     	Scanner s = new Scanner(System.in);
     	
@@ -134,7 +155,8 @@ public class startServer {
     	int numServers;
     	int totalElems;
     	
-        System.out.print("Enter buffer capacity: "); //Insert user inputted values for program execution
+    	//Insert user inputted values for program execution
+        System.out.print("Enter buffer capacity: "); 
         bufCapacity = s.nextInt();
         System.out.print("Enter number of users: ");
         numUsers = s.nextInt();
@@ -143,6 +165,7 @@ public class startServer {
         System.out.print("Enter total number of elements: ");
         totalElems = s.nextInt();
         
+        //Start driver class
         startServer start = new startServer(bufCapacity,numUsers,numServers,totalElems);
     }
 }
