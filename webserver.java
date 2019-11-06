@@ -53,8 +53,7 @@ public class webserver implements Runnable {
 				s.up();
 				if(bufElems <= 0  && num_elements > 0)
 					System.out.println("Buffer empty – web server wait");
-				e.up();
-					
+				e.up();					
 			} catch (InterruptedException e1) {e1.printStackTrace();}
 			
 		}

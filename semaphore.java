@@ -4,7 +4,7 @@ import java.util.*;
  * @author Thomas Watkins
  *
  */
-public class semaphore{    
+public class semaphore {    
     private int permits;
     
     /**

@@ -1,7 +1,7 @@
 import java.util.Scanner;
 /**
- * startServer acts as a driver class creating an execution scenaio
- * between user and webservers on Buffer. * 
+ * startServer acts as a driver class creating an execution scenario
+ * between user and webservers on Buffer. 
  * @author Thomas Watkins
  *
  */
@@ -14,8 +14,7 @@ public class startServer {
 	private int totalElems;
 	private semaphore s = new semaphore(1);
 	private semaphore n = new semaphore(0);
-	private semaphore e;
-    
+	private semaphore e;    
 	/**
 	 * Constructor. creates an instance of startServer to drive the program.
 	 * @param bufCapacity is the buffers quantity limit.
@@ -43,13 +42,13 @@ public class startServer {
     	
     	//Equally subdivide user inputted elements across all user objects
     	int divisionUsers[] = new int[numUsers];
-    	for(int i = 0; i < numUsers; i++) {
+    	for(int i = 0; i < numUsers; i++) 
     		divisionUsers[i] = 0;
-		}
+		
     	int divisionServers[] = new int[numServers];
-    	for(int i = 0; i < numServers; i++) {
+    	for(int i = 0; i < numServers; i++) 
     		divisionServers[i] = 0;
-		}
+		
     	int elemsUser = totalElems;
     	int elemsServer = totalElems;
     	
@@ -91,39 +90,29 @@ public class startServer {
 		}
     	
     	//Start all Threads
-    	for(Thread t: userThread) {			
-			t.start();			
-		}
+    	for(Thread t: userThread) 			
+			t.start();	
 		
-		for(Thread t: webServersThread) {
+		for(Thread t: webServersThread) 
 			t.start();		
-		}	
     	
 		//Join all Threads
 		for(Thread t: userThread) {
-			try {
-				t.join();
-			} catch (InterruptedException e) {				
-				e.printStackTrace();
-			}			
-		}		
+			try {t.join();} catch (InterruptedException e) {e.printStackTrace();}			
+		}
 		for(Thread t: webServersThread) {
-			try {
-				t.join();
-			} catch (InterruptedException e) {				
-				e.printStackTrace();
-			}			
+			try {t.join();} catch (InterruptedException e) {e.printStackTrace();}			
 		}
 				
         System.out.println("-----------------------");
         
         //Outputs the total number of elements added/removed from user and webserver
-        for(user u: users) {
+        for(user u: users) 
         	u.finished();
-        }
-        for(webserver ws: webServers) {
+        
+        for(webserver ws: webServers) 
         	ws.finished();
-        }       
+               
         System.out.println("-----------------------");
         
         //Check to see buffer if all elements produced from users have been successfully removed by webservers
@@ -131,12 +120,12 @@ public class startServer {
         System.out.println("-----------------------");
         
         //Checks if all users and web servers successfully finished
-        for(int i = 0; i < numServers; i++) {
+        for(int i = 0; i < numServers; i++) 
         	System.out.println("Server thread " + webServers[i].getId() + " is alive: "+ webServersThread[i].isAlive());
-        }
-        for(int i = 0; i < numUsers; i++) {
+        
+        for(int i = 0; i < numUsers; i++) 
         	System.out.println("User thread " + users[i].getId() + " is alive: "+ userThread[i].isAlive());
-        }
+        
         
         long endTime = System.currentTimeMillis();
         System.out.println("-----------------------");

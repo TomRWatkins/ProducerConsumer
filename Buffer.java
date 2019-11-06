@@ -12,10 +12,7 @@ public class Buffer {
 	
     private LinkedList<Integer> buf_list;		    
     private int elements;						
-    private int buf_size;						
-    private semaphore s;
-    private semaphore n;
-    private semaphore e;
+    private int buf_size;
     
     /**
      * Constructor. Creates a new buffer of size buf_size.
