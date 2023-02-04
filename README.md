@@ -1,3 +1,3 @@
 # ProducerConsumer
 
-Producer Consumer Concurrency program written in my second year of University
+Producer Consumer distributed Concurrency program written in my second year of University. Adds and removes elements from a buffer concurrently.
